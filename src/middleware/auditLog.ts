@@ -17,13 +17,13 @@ export function auditLog(db: Database) {
       try {
         db.prepare(
           `INSERT INTO audit_entries (method, path, status_code, actor, took_ms)
-           VALUES (?, ?, ?, ?, ?)`
+           VALUES (?, ?, ?, ?, ?)`,
         ).run(
           req.method,
           path,
           res.statusCode,
           req.header('authorization') ? 'key' : null,
-          Date.now() - startedAt
+          Date.now() - startedAt,
         );
       } catch {
         // An audit row is not worth failing a served request over.

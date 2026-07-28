@@ -50,3 +50,17 @@ CREATE TABLE IF NOT EXISTS rate_limit_hits (
 );
 
 CREATE INDEX IF NOT EXISTS idx_rate_limit ON rate_limit_hits (bucket, at);
+
+-- A branch of the group: a workshop with a number of ramps, its own
+-- * service desk, and its own diary.
+CREATE TABLE IF NOT EXISTS sites (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  code TEXT NOT NULL,
+  name TEXT NOT NULL,
+  town TEXT NOT NULL,
+  ramps INTEGER NOT NULL,
+  opened_on TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS sites_code_idx ON sites (code);

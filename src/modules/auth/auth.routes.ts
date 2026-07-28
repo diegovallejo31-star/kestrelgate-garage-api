@@ -10,7 +10,11 @@ export function createAuthRouter(db: Database): { router: Router; service: AuthS
   const controller = new AuthController(service);
   const router = Router();
 
-  router.post('/register', validateRequest({ body: registerSchema }), controller.register);
+  router.post(
+    '/register',
+    validateRequest({ body: registerSchema }),
+    controller.register,
+  );
   router.post('/sign-in', validateRequest({ body: signInSchema }), controller.signIn);
   router.get('/me', controller.whoAmI);
   router.post('/sign-out', controller.signOut);

@@ -11,7 +11,9 @@ export const dayString = z
   .string()
   .refine(isDay, 'A day is written YYYY-MM-DD and has to be one that happened');
 
-export const stampString = z.string().refine(isStamp, 'A stamp is written YYYY-MM-DDTHH:MM');
+export const stampString = z
+  .string()
+  .refine(isStamp, 'A stamp is written YYYY-MM-DDTHH:MM');
 
 /** A window read off the query string, half-open like every window here. */
 export const dayWindowSchema = z

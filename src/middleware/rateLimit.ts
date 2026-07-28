@@ -21,7 +21,9 @@ export function rateLimit(db: Database) {
 
     db.prepare('DELETE FROM rate_limit_hits WHERE at < ?').run(cutoff);
     const row = db
-      .prepare('SELECT COUNT(*) as hits FROM rate_limit_hits WHERE bucket = ? AND at >= ?')
+      .prepare(
+        'SELECT COUNT(*) as hits FROM rate_limit_hits WHERE bucket = ? AND at >= ?',
+      )
       .get(bucket, cutoff) as unknown as { hits: number };
 
     if (row.hits >= env.rateLimitPerMinute) {
@@ -31,7 +33,7 @@ export function rateLimit(db: Database) {
 
     db.prepare('INSERT INTO rate_limit_hits (bucket, at) VALUES (?, ?)').run(
       bucket,
-      new Date(now).toISOString()
+      new Date(now).toISOString(),
     );
     next();
   };

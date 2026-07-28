@@ -31,7 +31,9 @@ export function minutesBetween(from: string, to: string): number {
 
 /** Days from one day to another, counting the first and not the last. */
 export function daysBetween(from: string, to: string): number {
-  return Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000);
+  return Math.round(
+    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86_400_000,
+  );
 }
 
 /** A day so many days on from another. */
@@ -55,7 +57,12 @@ export function earlierOf(a: string, b: string): string {
  * Half-open throughout: a window ending on the 4th and one starting on the 4th
  * share no days, and the pair must not read as a clash.
  */
-export function windowsOverlap(aFrom: string, aTo: string, bFrom: string, bTo: string): boolean {
+export function windowsOverlap(
+  aFrom: string,
+  aTo: string,
+  bFrom: string,
+  bTo: string,
+): boolean {
   return aFrom < bTo && bFrom < aTo;
 }
 

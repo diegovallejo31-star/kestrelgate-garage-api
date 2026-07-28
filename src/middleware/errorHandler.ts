@@ -5,7 +5,10 @@ import { logger } from '../lib/logger';
 /** Anything that reaches the end of the stack was a route nobody wrote. */
 export function notFoundHandler(req: Request, res: Response): void {
   res.status(404).json({
-    error: { code: 'not_found', message: `Nothing is served at ${req.method} ${req.path}` },
+    error: {
+      code: 'not_found',
+      message: `Nothing is served at ${req.method} ${req.path}`,
+    },
   });
 }
 
@@ -20,7 +23,7 @@ export function errorHandler(
   err: unknown,
   _req: Request,
   res: Response,
-  _next: NextFunction
+  _next: NextFunction,
 ): void {
   // A body express itself could not parse never reaches a schema, so it is
   // turned into the same validation error a schema would have raised.
@@ -38,6 +41,10 @@ export function errorHandler(
     return;
   }
 
-  logger.error('unhandled error', { message: err instanceof Error ? err.message : String(err) });
-  res.status(500).json({ error: { code: 'internal_error', message: 'Something went wrong' } });
+  logger.error('unhandled error', {
+    message: err instanceof Error ? err.message : String(err),
+  });
+  res
+    .status(500)
+    .json({ error: { code: 'internal_error', message: 'Something went wrong' } });
 }

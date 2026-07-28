@@ -13,7 +13,10 @@ function read(name: string, fallback: string): string {
 export const env = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
   port: Number(read('PORT', '4120')),
-  databasePath: read('DATABASE_PATH', path.join(process.cwd(), 'data', 'kestrelgate.sqlite')),
+  databasePath: read(
+    'DATABASE_PATH',
+    path.join(process.cwd(), 'data', 'kestrelgate.sqlite'),
+  ),
   /** The key the workshop tablets and the service desk call the API with. */
   apiKey: read('API_KEY', 'kestrelgate-dev-key'),
   sessionTtlHours: Number(read('SESSION_TTL_HOURS', '12')),

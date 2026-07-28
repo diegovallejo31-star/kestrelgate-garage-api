@@ -62,15 +62,21 @@ describe('stamps', () => {
 
 describe('overlapping windows', () => {
   it('sees an overlap where the two share a day', () => {
-    expect(windowsOverlap('2026-03-01', '2026-03-05', '2026-03-04', '2026-03-08')).toBe(true);
+    expect(windowsOverlap('2026-03-01', '2026-03-05', '2026-03-04', '2026-03-08')).toBe(
+      true,
+    );
   });
 
   it('sees none where one starts the day the other ends', () => {
-    expect(windowsOverlap('2026-03-01', '2026-03-04', '2026-03-04', '2026-03-08')).toBe(false);
+    expect(windowsOverlap('2026-03-01', '2026-03-04', '2026-03-04', '2026-03-08')).toBe(
+      false,
+    );
   });
 
   it('sees an overlap where one swallows the other', () => {
-    expect(windowsOverlap('2026-03-01', '2026-03-31', '2026-03-10', '2026-03-12')).toBe(true);
+    expect(windowsOverlap('2026-03-01', '2026-03-31', '2026-03-10', '2026-03-12')).toBe(
+      true,
+    );
   });
 });
 

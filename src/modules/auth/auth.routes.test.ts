@@ -98,10 +98,14 @@ describe('signing in', () => {
     expect(me.status).toBe(200);
     expect(me.body.email).toBe(lower);
 
-    const out = await request(app).post('/auth/sign-out').set('Authorization', `Bearer ${token}`);
+    const out = await request(app)
+      .post('/auth/sign-out')
+      .set('Authorization', `Bearer ${token}`);
     expect(out.status).toBe(204);
 
-    const after = await request(app).get('/auth/me').set('Authorization', `Bearer ${token}`);
+    const after = await request(app)
+      .get('/auth/me')
+      .set('Authorization', `Bearer ${token}`);
     expect(after.status).toBe(401);
   });
 

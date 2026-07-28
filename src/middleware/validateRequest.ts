@@ -26,8 +26,10 @@ export function validateRequest(schemas: Schemas) {
       next(
         new ValidationError(
           'The request does not match what this route accepts',
-          err instanceof Error ? { issues: (err as { issues?: unknown }).issues } : undefined
-        )
+          err instanceof Error
+            ? { issues: (err as { issues?: unknown }).issues }
+            : undefined,
+        ),
       );
     }
   };

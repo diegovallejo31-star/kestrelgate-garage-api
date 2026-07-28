@@ -14,7 +14,9 @@ import { hashToken } from '../lib/tokens';
 export function apiKeyAuth(db: Database) {
   return (req: Request, _res: Response, next: NextFunction): void => {
     const header = req.header('authorization') ?? '';
-    const token = header.startsWith('Bearer ') ? header.slice('Bearer '.length).trim() : '';
+    const token = header.startsWith('Bearer ')
+      ? header.slice('Bearer '.length).trim()
+      : '';
     if (!token) {
       next(new UnauthorisedError('An API key is required'));
       return;
