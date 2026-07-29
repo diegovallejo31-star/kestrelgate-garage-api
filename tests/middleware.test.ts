@@ -15,7 +15,7 @@ describe('request validation', () => {
       validateRequest({ body: z.object({ name: z.string().min(2) }).strict() }),
       (req, res) => {
         res.json(req.body);
-      }
+      },
     );
     app.use(errorHandler);
     return app;
@@ -34,7 +34,9 @@ describe('request validation', () => {
   });
 
   it('turns down a field nobody asked for', async () => {
-    const res = await request(appWithSchema()).post('/echo').send({ name: 'Anything', spare: 1 });
+    const res = await request(appWithSchema())
+      .post('/echo')
+      .send({ name: 'Anything', spare: 1 });
     expect(res.status).toBe(400);
   });
 });
