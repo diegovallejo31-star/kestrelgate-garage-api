@@ -12,15 +12,13 @@ describe('sites over the wire', () => {
   it('takes a new one and lists it back', async () => {
     const app = buildApp();
 
-    const made = await api(app)
-      .post('/sites')
-      .send({
-        code: 'BRN',
-        name: 'Barnhill',
-        town: 'Barnhill',
-        ramps: 6,
-        openedOn: '2019-03-04',
-      });
+    const made = await api(app).post('/sites').send({
+      code: 'BRN',
+      name: 'Barnhill',
+      town: 'Barnhill',
+      ramps: 6,
+      openedOn: '2019-03-04',
+    });
     expect(made.status).toBe(201);
 
     const listed = await api(app).get('/sites');
@@ -31,15 +29,13 @@ describe('sites over the wire', () => {
   it('answers one with exactly the fields it promises', async () => {
     const app = buildApp();
 
-    const made = await api(app)
-      .post('/sites')
-      .send({
-        code: 'BRN',
-        name: 'Barnhill',
-        town: 'Barnhill',
-        ramps: 6,
-        openedOn: '2019-03-04',
-      });
+    const made = await api(app).post('/sites').send({
+      code: 'BRN',
+      name: 'Barnhill',
+      town: 'Barnhill',
+      ramps: 6,
+      openedOn: '2019-03-04',
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'code',
       'createdAt',
@@ -55,15 +51,13 @@ describe('sites over the wire', () => {
   it('reads one back by its id, and 404s for one that is not there', async () => {
     const app = buildApp();
 
-    const made = await api(app)
-      .post('/sites')
-      .send({
-        code: 'BRN',
-        name: 'Barnhill',
-        town: 'Barnhill',
-        ramps: 6,
-        openedOn: '2019-03-04',
-      });
+    const made = await api(app).post('/sites').send({
+      code: 'BRN',
+      name: 'Barnhill',
+      town: 'Barnhill',
+      ramps: 6,
+      openedOn: '2019-03-04',
+    });
     const read = await api(app).get(`/sites/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -75,16 +69,14 @@ describe('sites over the wire', () => {
   it('turns down a body carrying a field it does not know', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/sites')
-      .send({
-        code: 'BRN',
-        name: 'Barnhill',
-        town: 'Barnhill',
-        ramps: 6,
-        openedOn: '2019-03-04',
-        nonesuch: 1,
-      });
+    const res = await api(app).post('/sites').send({
+      code: 'BRN',
+      name: 'Barnhill',
+      town: 'Barnhill',
+      ramps: 6,
+      openedOn: '2019-03-04',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -98,41 +90,35 @@ describe('sites over the wire', () => {
   it('refuses a second one with the same code', async () => {
     const app = buildApp();
 
-    const first = await api(app)
-      .post('/sites')
-      .send({
-        code: 'BRN',
-        name: 'Barnhill',
-        town: 'Barnhill',
-        ramps: 6,
-        openedOn: '2019-03-04',
-      });
+    const first = await api(app).post('/sites').send({
+      code: 'BRN',
+      name: 'Barnhill',
+      town: 'Barnhill',
+      ramps: 6,
+      openedOn: '2019-03-04',
+    });
     expect(first.status).toBe(201);
 
-    const again = await api(app)
-      .post('/sites')
-      .send({
-        code: 'BRN',
-        name: 'Barnhill',
-        town: 'Barnhill',
-        ramps: 6,
-        openedOn: '2019-03-04',
-      });
+    const again = await api(app).post('/sites').send({
+      code: 'BRN',
+      name: 'Barnhill',
+      town: 'Barnhill',
+      ramps: 6,
+      openedOn: '2019-03-04',
+    });
     expect(again.status).toBe(409);
   });
 
   it('amends the one field and leaves the rest alone', async () => {
     const app = buildApp();
 
-    const made = await api(app)
-      .post('/sites')
-      .send({
-        code: 'BRN',
-        name: 'Barnhill',
-        town: 'Barnhill',
-        ramps: 6,
-        openedOn: '2019-03-04',
-      });
+    const made = await api(app).post('/sites').send({
+      code: 'BRN',
+      name: 'Barnhill',
+      town: 'Barnhill',
+      ramps: 6,
+      openedOn: '2019-03-04',
+    });
     const patched = await api(app).patch(`/sites/${made.body.id}`).send({ ramps: 6 });
     expect(patched.status).toBe(200);
     expect(patched.body.ramps).toEqual(6);
@@ -141,15 +127,13 @@ describe('sites over the wire', () => {
   it('refuses an empty amendment', async () => {
     const app = buildApp();
 
-    const made = await api(app)
-      .post('/sites')
-      .send({
-        code: 'BRN',
-        name: 'Barnhill',
-        town: 'Barnhill',
-        ramps: 6,
-        openedOn: '2019-03-04',
-      });
+    const made = await api(app).post('/sites').send({
+      code: 'BRN',
+      name: 'Barnhill',
+      town: 'Barnhill',
+      ramps: 6,
+      openedOn: '2019-03-04',
+    });
     const patched = await api(app).patch(`/sites/${made.body.id}`).send({});
     expect(patched.status).toBe(400);
   });

@@ -64,3 +64,19 @@ CREATE TABLE IF NOT EXISTS sites (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS sites_code_idx ON sites (code);
+
+-- Somebody on the workshop floor at one branch. The labour rate is
+-- * theirs rather than the branch's: an MOT tester and an apprentice on the same
+-- * ramp do not cost the customer the same hour.
+CREATE TABLE IF NOT EXISTS technicians (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  site_id INTEGER NOT NULL REFERENCES sites(id) ON DELETE CASCADE,
+  clock_number TEXT NOT NULL,
+  name TEXT NOT NULL,
+  grade TEXT NOT NULL,
+  labour_rate_pence INTEGER NOT NULL,
+  started_on TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS technicians_clock_number_idx ON technicians (site_id, clock_number);
