@@ -9,6 +9,10 @@ import { createApiKeyRouter } from './modules/apikeys/apiKey.routes';
 import { createAuditRouter } from './modules/audit/audit.routes';
 import { createAuthRouter } from './modules/auth/auth.routes';
 import { createSiteRouter } from './modules/sites/site.routes';
+import {
+  createSiteTechnicianRouter,
+  createTechnicianRouter,
+} from './modules/technicians/technician.routes';
 
 export function createApp(db: Database): Express {
   const app = express();
@@ -28,6 +32,8 @@ export function createApp(db: Database): Express {
   app.use('/api-keys', requireApiKey, createApiKeyRouter(db));
   app.use('/audit', requireApiKey, createAuditRouter(db));
   app.use('/sites', requireApiKey, createSiteRouter(db));
+  app.use('/sites', requireApiKey, createSiteTechnicianRouter(db));
+  app.use('/technicians', requireApiKey, createTechnicianRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
