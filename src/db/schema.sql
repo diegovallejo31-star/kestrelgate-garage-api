@@ -80,3 +80,18 @@ CREATE TABLE IF NOT EXISTS technicians (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS technicians_clock_number_idx ON technicians (site_id, clock_number);
+
+-- An account. Retail customers pay before the keys come back; account
+-- * customers are invoiced monthly, which is why the flag matters to the desk.
+CREATE TABLE IF NOT EXISTS customers (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  account_ref TEXT NOT NULL,
+  name TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  email TEXT,
+  opened_on TEXT NOT NULL,
+  on_account INTEGER NOT NULL DEFAULT 0 CHECK (on_account IN (0, 1)),
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS customers_account_ref_idx ON customers (account_ref);
