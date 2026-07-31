@@ -95,3 +95,21 @@ CREATE TABLE IF NOT EXISTS customers (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS customers_account_ref_idx ON customers (account_ref);
+
+-- A vehicle on an account. A registration belongs to one vehicle across
+-- * the whole group, not one per account: when a van changes hands the record
+-- * moves to the new account rather than being typed in again.
+CREATE TABLE IF NOT EXISTS vehicles (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  customer_id INTEGER NOT NULL REFERENCES customers(id) ON DELETE CASCADE,
+  registration TEXT NOT NULL,
+  make TEXT NOT NULL,
+  model TEXT NOT NULL,
+  fuel TEXT NOT NULL,
+  engine_cc INTEGER NOT NULL,
+  first_registered_on TEXT NOT NULL,
+  odometer_miles INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS vehicles_registration_idx ON vehicles (registration);
