@@ -8,6 +8,7 @@ import { requestLogger } from './middleware/requestLogger';
 import { createApiKeyRouter } from './modules/apikeys/apiKey.routes';
 import { createAuditRouter } from './modules/audit/audit.routes';
 import { createAuthRouter } from './modules/auth/auth.routes';
+import { createCustomerRouter } from './modules/customers/customer.routes';
 import { createSiteRouter } from './modules/sites/site.routes';
 import {
   createSiteTechnicianRouter,
@@ -34,6 +35,7 @@ export function createApp(db: Database): Express {
   app.use('/sites', requireApiKey, createSiteRouter(db));
   app.use('/sites', requireApiKey, createSiteTechnicianRouter(db));
   app.use('/technicians', requireApiKey, createTechnicianRouter(db));
+  app.use('/customers', requireApiKey, createCustomerRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
