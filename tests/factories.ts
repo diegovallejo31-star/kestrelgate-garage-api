@@ -58,3 +58,24 @@ export async function makeTechnician(
   }
   return res.body.id as number;
 }
+
+export async function makeCustomer(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const res = await api(app)
+    .post('/customers')
+    .send({
+      accountRef: `AC-1042${n}`,
+      name: 'Hollis Groundworks',
+      phone: '01642 770118',
+      openedOn: '2020-11-16',
+      onAccount: true,
+      ...fields,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeCustomer: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
