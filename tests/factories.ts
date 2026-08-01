@@ -79,3 +79,28 @@ export async function makeCustomer(
   }
   return res.body.id as number;
 }
+
+export async function makeVehicle(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { customerId: parent, ...rest } = fields as { customerId?: number };
+  const customerId = parent ?? (await makeCustomer(app));
+  const res = await api(app)
+    .post(`/customers/${customerId}/vehicles`)
+    .send({
+      registration: `YT19WGK${n}`,
+      make: 'Ford',
+      model: 'Transit',
+      fuel: 'diesel',
+      engineCc: 1995,
+      firstRegisteredOn: '2019-05-02',
+      odometerMiles: 64000,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeVehicle: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
