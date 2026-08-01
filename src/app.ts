@@ -14,6 +14,10 @@ import {
   createSiteTechnicianRouter,
   createTechnicianRouter,
 } from './modules/technicians/technician.routes';
+import {
+  createCustomerVehicleRouter,
+  createVehicleRouter,
+} from './modules/vehicles/vehicle.routes';
 
 export function createApp(db: Database): Express {
   const app = express();
@@ -36,6 +40,8 @@ export function createApp(db: Database): Express {
   app.use('/sites', requireApiKey, createSiteTechnicianRouter(db));
   app.use('/technicians', requireApiKey, createTechnicianRouter(db));
   app.use('/customers', requireApiKey, createCustomerRouter(db));
+  app.use('/customers', requireApiKey, createCustomerVehicleRouter(db));
+  app.use('/vehicles', requireApiKey, createVehicleRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
