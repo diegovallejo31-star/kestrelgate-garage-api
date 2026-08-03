@@ -9,6 +9,7 @@ import { createApiKeyRouter } from './modules/apikeys/apiKey.routes';
 import { createAuditRouter } from './modules/audit/audit.routes';
 import { createAuthRouter } from './modules/auth/auth.routes';
 import { createCustomerRouter } from './modules/customers/customer.routes';
+import { createPartRouter } from './modules/parts/part.routes';
 import { createSiteRouter } from './modules/sites/site.routes';
 import {
   createSiteTechnicianRouter,
@@ -42,6 +43,7 @@ export function createApp(db: Database): Express {
   app.use('/customers', requireApiKey, createCustomerRouter(db));
   app.use('/customers', requireApiKey, createCustomerVehicleRouter(db));
   app.use('/vehicles', requireApiKey, createVehicleRouter(db));
+  app.use('/parts', requireApiKey, createPartRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
