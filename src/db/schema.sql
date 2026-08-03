@@ -113,3 +113,19 @@ CREATE TABLE IF NOT EXISTS vehicles (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS vehicles_registration_idx ON vehicles (registration);
+
+-- A line in the catalogue. The trade price is what the factor charges
+-- * us; the markup is basis points on top of that, so 2500 is a quarter on. The
+-- * retail price is worked out from the two and never stored, because a factor
+-- * who puts their prices up must not silently reprice work already invoiced.
+CREATE TABLE IF NOT EXISTS parts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  part_number TEXT NOT NULL,
+  description TEXT NOT NULL,
+  trade_price_pence INTEGER NOT NULL,
+  markup_basis_points INTEGER NOT NULL,
+  on_hand INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS parts_part_number_idx ON parts (part_number);

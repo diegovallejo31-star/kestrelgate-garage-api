@@ -13,17 +13,15 @@ describe('vehicles over the wire', () => {
     const app = buildApp();
     const customerId = await makeCustomer(app);
 
-    const made = await api(app)
-      .post(`/customers/${customerId}/vehicles`)
-      .send({
-        registration: 'YT19WGK',
-        make: 'Ford',
-        model: 'Transit',
-        fuel: 'diesel',
-        engineCc: 1995,
-        firstRegisteredOn: '2019-05-02',
-        odometerMiles: 64000,
-      });
+    const made = await api(app).post(`/customers/${customerId}/vehicles`).send({
+      registration: 'YT19WGK',
+      make: 'Ford',
+      model: 'Transit',
+      fuel: 'diesel',
+      engineCc: 1995,
+      firstRegisteredOn: '2019-05-02',
+      odometerMiles: 64000,
+    });
     expect(made.status).toBe(201);
 
     const listed = await api(app).get(`/customers/${customerId}/vehicles`);
@@ -35,17 +33,15 @@ describe('vehicles over the wire', () => {
     const app = buildApp();
     const customerId = await makeCustomer(app);
 
-    const made = await api(app)
-      .post(`/customers/${customerId}/vehicles`)
-      .send({
-        registration: 'YT19WGK',
-        make: 'Ford',
-        model: 'Transit',
-        fuel: 'diesel',
-        engineCc: 1995,
-        firstRegisteredOn: '2019-05-02',
-        odometerMiles: 64000,
-      });
+    const made = await api(app).post(`/customers/${customerId}/vehicles`).send({
+      registration: 'YT19WGK',
+      make: 'Ford',
+      model: 'Transit',
+      fuel: 'diesel',
+      engineCc: 1995,
+      firstRegisteredOn: '2019-05-02',
+      odometerMiles: 64000,
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'createdAt',
       'customerId',
@@ -65,17 +61,15 @@ describe('vehicles over the wire', () => {
     const app = buildApp();
     const customerId = await makeCustomer(app);
 
-    const made = await api(app)
-      .post(`/customers/${customerId}/vehicles`)
-      .send({
-        registration: 'YT19WGK',
-        make: 'Ford',
-        model: 'Transit',
-        fuel: 'diesel',
-        engineCc: 1995,
-        firstRegisteredOn: '2019-05-02',
-        odometerMiles: 64000,
-      });
+    const made = await api(app).post(`/customers/${customerId}/vehicles`).send({
+      registration: 'YT19WGK',
+      make: 'Ford',
+      model: 'Transit',
+      fuel: 'diesel',
+      engineCc: 1995,
+      firstRegisteredOn: '2019-05-02',
+      odometerMiles: 64000,
+    });
     const read = await api(app).get(`/vehicles/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -88,18 +82,16 @@ describe('vehicles over the wire', () => {
     const app = buildApp();
     const customerId = await makeCustomer(app);
 
-    const res = await api(app)
-      .post(`/customers/${customerId}/vehicles`)
-      .send({
-        registration: 'YT19WGK',
-        make: 'Ford',
-        model: 'Transit',
-        fuel: 'diesel',
-        engineCc: 1995,
-        firstRegisteredOn: '2019-05-02',
-        odometerMiles: 64000,
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/customers/${customerId}/vehicles`).send({
+      registration: 'YT19WGK',
+      make: 'Ford',
+      model: 'Transit',
+      fuel: 'diesel',
+      engineCc: 1995,
+      firstRegisteredOn: '2019-05-02',
+      odometerMiles: 64000,
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -115,30 +107,26 @@ describe('vehicles over the wire', () => {
     const app = buildApp();
     const customerId = await makeCustomer(app);
 
-    const first = await api(app)
-      .post(`/customers/${customerId}/vehicles`)
-      .send({
-        registration: 'YT19WGK',
-        make: 'Ford',
-        model: 'Transit',
-        fuel: 'diesel',
-        engineCc: 1995,
-        firstRegisteredOn: '2019-05-02',
-        odometerMiles: 64000,
-      });
+    const first = await api(app).post(`/customers/${customerId}/vehicles`).send({
+      registration: 'YT19WGK',
+      make: 'Ford',
+      model: 'Transit',
+      fuel: 'diesel',
+      engineCc: 1995,
+      firstRegisteredOn: '2019-05-02',
+      odometerMiles: 64000,
+    });
     expect(first.status).toBe(201);
 
-    const again = await api(app)
-      .post(`/customers/${customerId}/vehicles`)
-      .send({
-        registration: 'YT19WGK',
-        make: 'Ford',
-        model: 'Transit',
-        fuel: 'diesel',
-        engineCc: 1995,
-        firstRegisteredOn: '2019-05-02',
-        odometerMiles: 64000,
-      });
+    const again = await api(app).post(`/customers/${customerId}/vehicles`).send({
+      registration: 'YT19WGK',
+      make: 'Ford',
+      model: 'Transit',
+      fuel: 'diesel',
+      engineCc: 1995,
+      firstRegisteredOn: '2019-05-02',
+      odometerMiles: 64000,
+    });
     expect(again.status).toBe(409);
   });
 
@@ -146,17 +134,15 @@ describe('vehicles over the wire', () => {
     const app = buildApp();
     const customerId = await makeCustomer(app);
 
-    const made = await api(app)
-      .post(`/customers/${customerId}/vehicles`)
-      .send({
-        registration: 'YT19WGK',
-        make: 'Ford',
-        model: 'Transit',
-        fuel: 'diesel',
-        engineCc: 1995,
-        firstRegisteredOn: '2019-05-02',
-        odometerMiles: 64000,
-      });
+    const made = await api(app).post(`/customers/${customerId}/vehicles`).send({
+      registration: 'YT19WGK',
+      make: 'Ford',
+      model: 'Transit',
+      fuel: 'diesel',
+      engineCc: 1995,
+      firstRegisteredOn: '2019-05-02',
+      odometerMiles: 64000,
+    });
     const patched = await api(app)
       .patch(`/vehicles/${made.body.id}`)
       .send({ odometerMiles: 71250 });
@@ -168,17 +154,15 @@ describe('vehicles over the wire', () => {
     const app = buildApp();
     const customerId = await makeCustomer(app);
 
-    const made = await api(app)
-      .post(`/customers/${customerId}/vehicles`)
-      .send({
-        registration: 'YT19WGK',
-        make: 'Ford',
-        model: 'Transit',
-        fuel: 'diesel',
-        engineCc: 1995,
-        firstRegisteredOn: '2019-05-02',
-        odometerMiles: 64000,
-      });
+    const made = await api(app).post(`/customers/${customerId}/vehicles`).send({
+      registration: 'YT19WGK',
+      make: 'Ford',
+      model: 'Transit',
+      fuel: 'diesel',
+      engineCc: 1995,
+      firstRegisteredOn: '2019-05-02',
+      odometerMiles: 64000,
+    });
     const patched = await api(app).patch(`/vehicles/${made.body.id}`).send({});
     expect(patched.status).toBe(400);
   });
@@ -186,17 +170,15 @@ describe('vehicles over the wire', () => {
   it('404s when the customer is not there', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/customers/999999/vehicles')
-      .send({
-        registration: 'YT19WGK',
-        make: 'Ford',
-        model: 'Transit',
-        fuel: 'diesel',
-        engineCc: 1995,
-        firstRegisteredOn: '2019-05-02',
-        odometerMiles: 64000,
-      });
+    const res = await api(app).post('/customers/999999/vehicles').send({
+      registration: 'YT19WGK',
+      make: 'Ford',
+      model: 'Transit',
+      fuel: 'diesel',
+      engineCc: 1995,
+      firstRegisteredOn: '2019-05-02',
+      odometerMiles: 64000,
+    });
     expect(res.status).toBe(404);
   });
 
