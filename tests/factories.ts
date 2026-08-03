@@ -104,3 +104,24 @@ export async function makeVehicle(
   }
   return res.body.id as number;
 }
+
+export async function makePart(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const res = await api(app)
+    .post('/parts')
+    .send({
+      partNumber: `GDB1330${n}`,
+      description: 'Front brake pad set',
+      tradePricePence: 2840,
+      markupBasisPoints: 2500,
+      onHand: 12,
+      ...fields,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makePart: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
