@@ -129,3 +129,18 @@ CREATE TABLE IF NOT EXISTS parts (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS parts_part_number_idx ON parts (part_number);
+
+-- A visit. The vehicle says whose it is, the site says which workshop
+-- * is expecting it, and the status is what the service desk looks at when the
+-- * customer rings up to ask.
+CREATE TABLE IF NOT EXISTS bookings (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  vehicle_id INTEGER NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
+  site_id INTEGER NOT NULL,
+  booked_for TEXT NOT NULL,
+  reason TEXT NOT NULL,
+  odometer_in INTEGER,
+  status TEXT NOT NULL DEFAULT 'booked',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
