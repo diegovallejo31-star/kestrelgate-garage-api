@@ -67,14 +67,12 @@ describe('bookings over the wire', () => {
     const vehicleId = await makeVehicle(app);
     const siteId = await makeSite(app);
 
-    const res = await api(app)
-      .post(`/vehicles/${vehicleId}/bookings`)
-      .send({
-        siteId: siteId,
-        bookedFor: '2025-04-14',
-        reason: 'Grinding on the front',
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/vehicles/${vehicleId}/bookings`).send({
+      siteId: siteId,
+      bookedFor: '2025-04-14',
+      reason: 'Grinding on the front',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 

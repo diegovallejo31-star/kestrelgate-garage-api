@@ -144,3 +144,19 @@ CREATE TABLE IF NOT EXISTS bookings (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A line of work. Labour is booked in tenths of an hour because that is
+-- * what the ramp clock records; the charge is worked out from the technician's
+-- * own rate at the moment the job is raised and then left alone, so a pay rise
+-- * next month does not reprice work already done.
+CREATE TABLE IF NOT EXISTS jobs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  booking_id INTEGER NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
+  technician_id INTEGER NOT NULL,
+  description TEXT NOT NULL,
+  labour_tenths INTEGER NOT NULL,
+  labour_pence INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'open',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
