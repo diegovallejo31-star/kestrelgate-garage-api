@@ -13,6 +13,7 @@ import {
   createVehicleBookingRouter,
 } from './modules/bookings/booking.routes';
 import { createCustomerRouter } from './modules/customers/customer.routes';
+import { createBookingJobRouter, createJobRouter } from './modules/jobs/job.routes';
 import { createPartRouter } from './modules/parts/part.routes';
 import { createSiteRouter } from './modules/sites/site.routes';
 import {
@@ -50,6 +51,8 @@ export function createApp(db: Database): Express {
   app.use('/parts', requireApiKey, createPartRouter(db));
   app.use('/vehicles', requireApiKey, createVehicleBookingRouter(db));
   app.use('/bookings', requireApiKey, createBookingRouter(db));
+  app.use('/bookings', requireApiKey, createBookingJobRouter(db));
+  app.use('/jobs', requireApiKey, createJobRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
