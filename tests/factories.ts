@@ -125,3 +125,25 @@ export async function makePart(
   }
   return res.body.id as number;
 }
+
+export async function makeBooking(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { vehicleId: parent, ...rest } = fields as { vehicleId?: number };
+  const vehicleId = parent ?? (await makeVehicle(app));
+  const siteId = await makeSite(app);
+  const res = await api(app)
+    .post(`/vehicles/${vehicleId}/bookings`)
+    .send({
+      siteId: siteId,
+      bookedFor: '2025-04-14',
+      reason: 'Grinding on the front',
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeBooking: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
