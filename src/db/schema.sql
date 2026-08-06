@@ -160,3 +160,17 @@ CREATE TABLE IF NOT EXISTS jobs (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A part going onto a job. The unit price is the catalogue price worked
+-- * out at the moment of fitting and then held, because the factor's prices move
+-- * and the customer's invoice must not.
+CREATE TABLE IF NOT EXISTS fitments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  job_id INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
+  part_id INTEGER NOT NULL,
+  quantity INTEGER NOT NULL,
+  unit_price_pence INTEGER NOT NULL,
+  line_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);

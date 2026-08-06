@@ -14,13 +14,11 @@ describe('jobs over the wire', () => {
     const bookingId = await makeBooking(app);
     const technicianId = await makeTechnician(app);
 
-    const made = await api(app)
-      .post(`/bookings/${bookingId}/jobs`)
-      .send({
-        technicianId: technicianId,
-        description: 'Front pads and discs',
-        labourTenths: 15,
-      });
+    const made = await api(app).post(`/bookings/${bookingId}/jobs`).send({
+      technicianId: technicianId,
+      description: 'Front pads and discs',
+      labourTenths: 15,
+    });
     expect(made.status).toBe(201);
     expect(made.body.status).toBe('open');
 
@@ -34,13 +32,11 @@ describe('jobs over the wire', () => {
     const bookingId = await makeBooking(app);
     const technicianId = await makeTechnician(app);
 
-    const made = await api(app)
-      .post(`/bookings/${bookingId}/jobs`)
-      .send({
-        technicianId: technicianId,
-        description: 'Front pads and discs',
-        labourTenths: 15,
-      });
+    const made = await api(app).post(`/bookings/${bookingId}/jobs`).send({
+      technicianId: technicianId,
+      description: 'Front pads and discs',
+      labourTenths: 15,
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'bookingId',
       'createdAt',
@@ -59,13 +55,11 @@ describe('jobs over the wire', () => {
     const bookingId = await makeBooking(app);
     const technicianId = await makeTechnician(app);
 
-    const made = await api(app)
-      .post(`/bookings/${bookingId}/jobs`)
-      .send({
-        technicianId: technicianId,
-        description: 'Front pads and discs',
-        labourTenths: 15,
-      });
+    const made = await api(app).post(`/bookings/${bookingId}/jobs`).send({
+      technicianId: technicianId,
+      description: 'Front pads and discs',
+      labourTenths: 15,
+    });
     const read = await api(app).get(`/jobs/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -79,14 +73,12 @@ describe('jobs over the wire', () => {
     const bookingId = await makeBooking(app);
     const technicianId = await makeTechnician(app);
 
-    const res = await api(app)
-      .post(`/bookings/${bookingId}/jobs`)
-      .send({
-        technicianId: technicianId,
-        description: 'Front pads and discs',
-        labourTenths: 15,
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/bookings/${bookingId}/jobs`).send({
+      technicianId: technicianId,
+      description: 'Front pads and discs',
+      labourTenths: 15,
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -102,13 +94,11 @@ describe('jobs over the wire', () => {
     const app = buildApp();
     const technicianId = await makeTechnician(app);
 
-    const res = await api(app)
-      .post('/bookings/999999/jobs')
-      .send({
-        technicianId: technicianId,
-        description: 'Front pads and discs',
-        labourTenths: 15,
-      });
+    const res = await api(app).post('/bookings/999999/jobs').send({
+      technicianId: technicianId,
+      description: 'Front pads and discs',
+      labourTenths: 15,
+    });
     expect(res.status).toBe(404);
   });
 
