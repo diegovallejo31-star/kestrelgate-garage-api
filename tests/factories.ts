@@ -147,3 +147,25 @@ export async function makeBooking(
   }
   return res.body.id as number;
 }
+
+export async function makeJob(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { bookingId: parent, ...rest } = fields as { bookingId?: number };
+  const bookingId = parent ?? (await makeBooking(app));
+  const technicianId = await makeTechnician(app);
+  const res = await api(app)
+    .post(`/bookings/${bookingId}/jobs`)
+    .send({
+      technicianId: technicianId,
+      description: 'Front pads and discs',
+      labourTenths: 15,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeJob: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
