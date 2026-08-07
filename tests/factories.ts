@@ -169,3 +169,24 @@ export async function makeJob(
   }
   return res.body.id as number;
 }
+
+export async function makeFitment(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { jobId: parent, ...rest } = fields as { jobId?: number };
+  const jobId = parent ?? (await makeJob(app));
+  const partId = await makePart(app, { onHand: 50 });
+  const res = await api(app)
+    .post(`/jobs/${jobId}/fitments`)
+    .send({
+      partId: partId,
+      quantity: 2,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeFitment: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
