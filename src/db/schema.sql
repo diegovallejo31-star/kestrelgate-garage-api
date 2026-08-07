@@ -174,3 +174,19 @@ CREATE TABLE IF NOT EXISTS fitments (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- An MOT test on a vehicle. The certificate number is the DVSA's, not
+-- * ours, so it is unique across the group and arrives from the tester rather
+-- * than being allocated here.
+CREATE TABLE IF NOT EXISTS mot_tests (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  vehicle_id INTEGER NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
+  certificate_number TEXT NOT NULL,
+  tested_on TEXT NOT NULL,
+  result TEXT NOT NULL,
+  odometer_miles INTEGER NOT NULL,
+  expires_on TEXT,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS mot_tests_certificate_number_idx ON mot_tests (certificate_number);
