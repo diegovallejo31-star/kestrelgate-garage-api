@@ -190,3 +190,26 @@ export async function makeFitment(
   }
   return res.body.id as number;
 }
+
+export async function makeMotTest(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { vehicleId: parent, ...rest } = fields as { vehicleId?: number };
+  const vehicleId = parent ?? (await makeVehicle(app));
+  const res = await api(app)
+    .post(`/vehicles/${vehicleId}/mot-tests`)
+    .send({
+      certificateNumber: `C41220118${n}`,
+      testedOn: '2024-03-11',
+      result: 'pass',
+      odometerMiles: 64000,
+      expiresOn: '2025-03-10',
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeMotTest: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
