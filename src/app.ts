@@ -18,6 +18,10 @@ import {
   createJobFitmentRouter,
 } from './modules/fitments/fitment.routes';
 import { createBookingJobRouter, createJobRouter } from './modules/jobs/job.routes';
+import {
+  createMotTestRouter,
+  createVehicleMotTestRouter,
+} from './modules/mots/motTest.routes';
 import { createPartRouter } from './modules/parts/part.routes';
 import { createSiteRouter } from './modules/sites/site.routes';
 import {
@@ -59,6 +63,8 @@ export function createApp(db: Database): Express {
   app.use('/jobs', requireApiKey, createJobRouter(db));
   app.use('/jobs', requireApiKey, createJobFitmentRouter(db));
   app.use('/fitments', requireApiKey, createFitmentRouter(db));
+  app.use('/vehicles', requireApiKey, createVehicleMotTestRouter(db));
+  app.use('/mot-tests', requireApiKey, createMotTestRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
