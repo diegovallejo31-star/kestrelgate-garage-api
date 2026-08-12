@@ -190,3 +190,24 @@ CREATE TABLE IF NOT EXISTS mot_tests (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS mot_tests_certificate_number_idx ON mot_tests (certificate_number);
+
+-- One invoice for one completed booking. Every money column is worked
+-- * out when the invoice is raised and then stored, because the jobs and fitments
+-- * it was built from can be repriced afterwards and the invoice cannot.
+-- *
+-- * It hangs off /invoices rather than under the booking because it outlives the
+-- * visit: the accounts office chases it long after the car has gone.
+CREATE TABLE IF NOT EXISTS invoices (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  booking_id INTEGER NOT NULL,
+  number TEXT NOT NULL,
+  raised_on TEXT NOT NULL,
+  labour_pence INTEGER NOT NULL,
+  parts_pence INTEGER NOT NULL,
+  net_pence INTEGER NOT NULL,
+  vat_pence INTEGER NOT NULL,
+  gross_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS invoices_number_idx ON invoices (number);

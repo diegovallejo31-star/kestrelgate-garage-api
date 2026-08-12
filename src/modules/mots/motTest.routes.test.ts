@@ -13,15 +13,13 @@ describe('mots over the wire', () => {
     const app = buildApp();
     const vehicleId = await makeVehicle(app);
 
-    const made = await api(app)
-      .post(`/vehicles/${vehicleId}/mot-tests`)
-      .send({
-        certificateNumber: 'C41220118',
-        testedOn: '2024-03-11',
-        result: 'pass',
-        odometerMiles: 64000,
-        expiresOn: '2025-03-10',
-      });
+    const made = await api(app).post(`/vehicles/${vehicleId}/mot-tests`).send({
+      certificateNumber: 'C41220118',
+      testedOn: '2024-03-11',
+      result: 'pass',
+      odometerMiles: 64000,
+      expiresOn: '2025-03-10',
+    });
     expect(made.status).toBe(201);
 
     const listed = await api(app).get(`/vehicles/${vehicleId}/mot-tests`);
@@ -33,15 +31,13 @@ describe('mots over the wire', () => {
     const app = buildApp();
     const vehicleId = await makeVehicle(app);
 
-    const made = await api(app)
-      .post(`/vehicles/${vehicleId}/mot-tests`)
-      .send({
-        certificateNumber: 'C41220118',
-        testedOn: '2024-03-11',
-        result: 'pass',
-        odometerMiles: 64000,
-        expiresOn: '2025-03-10',
-      });
+    const made = await api(app).post(`/vehicles/${vehicleId}/mot-tests`).send({
+      certificateNumber: 'C41220118',
+      testedOn: '2024-03-11',
+      result: 'pass',
+      odometerMiles: 64000,
+      expiresOn: '2025-03-10',
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'certificateNumber',
       'createdAt',
@@ -59,15 +55,13 @@ describe('mots over the wire', () => {
     const app = buildApp();
     const vehicleId = await makeVehicle(app);
 
-    const made = await api(app)
-      .post(`/vehicles/${vehicleId}/mot-tests`)
-      .send({
-        certificateNumber: 'C41220118',
-        testedOn: '2024-03-11',
-        result: 'pass',
-        odometerMiles: 64000,
-        expiresOn: '2025-03-10',
-      });
+    const made = await api(app).post(`/vehicles/${vehicleId}/mot-tests`).send({
+      certificateNumber: 'C41220118',
+      testedOn: '2024-03-11',
+      result: 'pass',
+      odometerMiles: 64000,
+      expiresOn: '2025-03-10',
+    });
     const read = await api(app).get(`/mot-tests/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -80,16 +74,14 @@ describe('mots over the wire', () => {
     const app = buildApp();
     const vehicleId = await makeVehicle(app);
 
-    const res = await api(app)
-      .post(`/vehicles/${vehicleId}/mot-tests`)
-      .send({
-        certificateNumber: 'C41220118',
-        testedOn: '2024-03-11',
-        result: 'pass',
-        odometerMiles: 64000,
-        expiresOn: '2025-03-10',
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/vehicles/${vehicleId}/mot-tests`).send({
+      certificateNumber: 'C41220118',
+      testedOn: '2024-03-11',
+      result: 'pass',
+      odometerMiles: 64000,
+      expiresOn: '2025-03-10',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -105,41 +97,35 @@ describe('mots over the wire', () => {
     const app = buildApp();
     const vehicleId = await makeVehicle(app);
 
-    const first = await api(app)
-      .post(`/vehicles/${vehicleId}/mot-tests`)
-      .send({
-        certificateNumber: 'C41220118',
-        testedOn: '2024-03-11',
-        result: 'pass',
-        odometerMiles: 64000,
-        expiresOn: '2025-03-10',
-      });
+    const first = await api(app).post(`/vehicles/${vehicleId}/mot-tests`).send({
+      certificateNumber: 'C41220118',
+      testedOn: '2024-03-11',
+      result: 'pass',
+      odometerMiles: 64000,
+      expiresOn: '2025-03-10',
+    });
     expect(first.status).toBe(201);
 
-    const again = await api(app)
-      .post(`/vehicles/${vehicleId}/mot-tests`)
-      .send({
-        certificateNumber: 'C41220118',
-        testedOn: '2024-03-11',
-        result: 'pass',
-        odometerMiles: 64000,
-        expiresOn: '2025-03-10',
-      });
+    const again = await api(app).post(`/vehicles/${vehicleId}/mot-tests`).send({
+      certificateNumber: 'C41220118',
+      testedOn: '2024-03-11',
+      result: 'pass',
+      odometerMiles: 64000,
+      expiresOn: '2025-03-10',
+    });
     expect(again.status).toBe(409);
   });
 
   it('404s when the vehicle is not there', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/vehicles/999999/mot-tests')
-      .send({
-        certificateNumber: 'C41220118',
-        testedOn: '2024-03-11',
-        result: 'pass',
-        odometerMiles: 64000,
-        expiresOn: '2025-03-10',
-      });
+    const res = await api(app).post('/vehicles/999999/mot-tests').send({
+      certificateNumber: 'C41220118',
+      testedOn: '2024-03-11',
+      result: 'pass',
+      odometerMiles: 64000,
+      expiresOn: '2025-03-10',
+    });
     expect(res.status).toBe(404);
   });
 
