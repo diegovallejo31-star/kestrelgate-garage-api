@@ -213,3 +213,29 @@ export async function makeMotTest(
   }
   return res.body.id as number;
 }
+
+export async function makeInvoice(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const bookingId = await makeBooking(app);
+  const technicianId = await makeTechnician(app, { labourRatePence: 8400 });
+  await api(app).post(`/bookings/${bookingId}/status`).send({ status: 'in_progress' });
+  await api(app)
+    .post(`/bookings/${bookingId}/jobs`)
+    .send({ technicianId, description: 'Hour of labour', labourTenths: 10 });
+  await api(app).post(`/bookings/${bookingId}/status`).send({ status: 'completed' });
+  const res = await api(app)
+    .post('/invoices')
+    .send({
+      bookingId: bookingId,
+      number: `INV-4471${n}`,
+      raisedOn: '2025-04-16',
+      ...fields,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeInvoice: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
