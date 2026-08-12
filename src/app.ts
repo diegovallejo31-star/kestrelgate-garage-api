@@ -17,6 +17,7 @@ import {
   createFitmentRouter,
   createJobFitmentRouter,
 } from './modules/fitments/fitment.routes';
+import { createInvoiceRouter } from './modules/invoices/invoice.routes';
 import { createBookingJobRouter, createJobRouter } from './modules/jobs/job.routes';
 import {
   createMotTestRouter,
@@ -65,6 +66,7 @@ export function createApp(db: Database): Express {
   app.use('/fitments', requireApiKey, createFitmentRouter(db));
   app.use('/vehicles', requireApiKey, createVehicleMotTestRouter(db));
   app.use('/mot-tests', requireApiKey, createMotTestRouter(db));
+  app.use('/invoices', requireApiKey, createInvoiceRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
