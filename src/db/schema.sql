@@ -211,3 +211,17 @@ CREATE TABLE IF NOT EXISTS invoices (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS invoices_number_idx ON invoices (number);
+
+-- A payment against an invoice. An invoice can be settled in more than
+-- * one go - a deposit on collection and the balance on account - so the amount
+-- * outstanding is the gross less everything received, and a payment that would
+-- * take it below zero is refused rather than parked as a credit.
+CREATE TABLE IF NOT EXISTS payments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  invoice_id INTEGER NOT NULL,
+  paid_on TEXT NOT NULL,
+  method TEXT NOT NULL,
+  amount_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);

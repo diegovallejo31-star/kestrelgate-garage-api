@@ -93,14 +93,12 @@ describe('invoices over the wire', () => {
       .send({ technicianId, description: 'Hour of labour', labourTenths: 10 });
     await api(app).post(`/bookings/${bookingId}/status`).send({ status: 'completed' });
 
-    const res = await api(app)
-      .post('/invoices')
-      .send({
-        bookingId: bookingId,
-        number: 'INV-4471',
-        raisedOn: '2025-04-16',
-        nonesuch: 1,
-      });
+    const res = await api(app).post('/invoices').send({
+      bookingId: bookingId,
+      number: 'INV-4471',
+      raisedOn: '2025-04-16',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
