@@ -24,6 +24,7 @@ import {
   createVehicleMotTestRouter,
 } from './modules/mots/motTest.routes';
 import { createPartRouter } from './modules/parts/part.routes';
+import { createPaymentRouter } from './modules/payments/payment.routes';
 import { createSiteRouter } from './modules/sites/site.routes';
 import {
   createSiteTechnicianRouter,
@@ -67,6 +68,7 @@ export function createApp(db: Database): Express {
   app.use('/vehicles', requireApiKey, createVehicleMotTestRouter(db));
   app.use('/mot-tests', requireApiKey, createMotTestRouter(db));
   app.use('/invoices', requireApiKey, createInvoiceRouter(db));
+  app.use('/payments', requireApiKey, createPaymentRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
