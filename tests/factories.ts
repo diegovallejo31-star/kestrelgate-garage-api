@@ -239,3 +239,24 @@ export async function makeInvoice(
   }
   return res.body.id as number;
 }
+
+export async function makePayment(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const invoiceId = await makeInvoice(app);
+  const res = await api(app)
+    .post('/payments')
+    .send({
+      invoiceId: invoiceId,
+      paidOn: '2025-04-18',
+      method: 'card',
+      amountPence: 1000,
+      ...fields,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makePayment: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
