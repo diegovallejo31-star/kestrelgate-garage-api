@@ -13,14 +13,12 @@ describe('payments over the wire', () => {
     const app = buildApp();
     const invoiceId = await makeInvoice(app);
 
-    const made = await api(app)
-      .post('/payments')
-      .send({
-        invoiceId: invoiceId,
-        paidOn: '2025-04-18',
-        method: 'card',
-        amountPence: 1000,
-      });
+    const made = await api(app).post('/payments').send({
+      invoiceId: invoiceId,
+      paidOn: '2025-04-18',
+      method: 'card',
+      amountPence: 1000,
+    });
     expect(made.status).toBe(201);
 
     const listed = await api(app).get('/payments');
@@ -32,14 +30,12 @@ describe('payments over the wire', () => {
     const app = buildApp();
     const invoiceId = await makeInvoice(app);
 
-    const made = await api(app)
-      .post('/payments')
-      .send({
-        invoiceId: invoiceId,
-        paidOn: '2025-04-18',
-        method: 'card',
-        amountPence: 1000,
-      });
+    const made = await api(app).post('/payments').send({
+      invoiceId: invoiceId,
+      paidOn: '2025-04-18',
+      method: 'card',
+      amountPence: 1000,
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'amountPence',
       'createdAt',
@@ -55,14 +51,12 @@ describe('payments over the wire', () => {
     const app = buildApp();
     const invoiceId = await makeInvoice(app);
 
-    const made = await api(app)
-      .post('/payments')
-      .send({
-        invoiceId: invoiceId,
-        paidOn: '2025-04-18',
-        method: 'card',
-        amountPence: 1000,
-      });
+    const made = await api(app).post('/payments').send({
+      invoiceId: invoiceId,
+      paidOn: '2025-04-18',
+      method: 'card',
+      amountPence: 1000,
+    });
     const read = await api(app).get(`/payments/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -75,15 +69,13 @@ describe('payments over the wire', () => {
     const app = buildApp();
     const invoiceId = await makeInvoice(app);
 
-    const res = await api(app)
-      .post('/payments')
-      .send({
-        invoiceId: invoiceId,
-        paidOn: '2025-04-18',
-        method: 'card',
-        amountPence: 1000,
-        nonesuch: 1,
-      });
+    const res = await api(app).post('/payments').send({
+      invoiceId: invoiceId,
+      paidOn: '2025-04-18',
+      method: 'card',
+      amountPence: 1000,
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
