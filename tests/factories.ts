@@ -260,3 +260,24 @@ export async function makePayment(
   }
   return res.body.id as number;
 }
+
+export async function makeReminder(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { vehicleId: parent, ...rest } = fields as { vehicleId?: number };
+  const vehicleId = parent ?? (await makeVehicle(app));
+  const res = await api(app)
+    .post(`/vehicles/${vehicleId}/reminders`)
+    .send({
+      kind: 'mot_due',
+      dueOn: '2025-05-01',
+      note: 'MOT runs out on the 10th - book it in.',
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeReminder: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
