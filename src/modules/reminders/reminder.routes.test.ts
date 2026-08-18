@@ -13,13 +13,11 @@ describe('reminders over the wire', () => {
     const app = buildApp();
     const vehicleId = await makeVehicle(app);
 
-    const made = await api(app)
-      .post(`/vehicles/${vehicleId}/reminders`)
-      .send({
-        kind: 'mot_due',
-        dueOn: '2025-05-01',
-        note: 'MOT runs out on the 10th - book it in.',
-      });
+    const made = await api(app).post(`/vehicles/${vehicleId}/reminders`).send({
+      kind: 'mot_due',
+      dueOn: '2025-05-01',
+      note: 'MOT runs out on the 10th - book it in.',
+    });
     expect(made.status).toBe(201);
     expect(made.body.status).toBe('scheduled');
 
@@ -32,13 +30,11 @@ describe('reminders over the wire', () => {
     const app = buildApp();
     const vehicleId = await makeVehicle(app);
 
-    const made = await api(app)
-      .post(`/vehicles/${vehicleId}/reminders`)
-      .send({
-        kind: 'mot_due',
-        dueOn: '2025-05-01',
-        note: 'MOT runs out on the 10th - book it in.',
-      });
+    const made = await api(app).post(`/vehicles/${vehicleId}/reminders`).send({
+      kind: 'mot_due',
+      dueOn: '2025-05-01',
+      note: 'MOT runs out on the 10th - book it in.',
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'createdAt',
       'dueOn',
@@ -55,13 +51,11 @@ describe('reminders over the wire', () => {
     const app = buildApp();
     const vehicleId = await makeVehicle(app);
 
-    const made = await api(app)
-      .post(`/vehicles/${vehicleId}/reminders`)
-      .send({
-        kind: 'mot_due',
-        dueOn: '2025-05-01',
-        note: 'MOT runs out on the 10th - book it in.',
-      });
+    const made = await api(app).post(`/vehicles/${vehicleId}/reminders`).send({
+      kind: 'mot_due',
+      dueOn: '2025-05-01',
+      note: 'MOT runs out on the 10th - book it in.',
+    });
     const read = await api(app).get(`/reminders/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -74,14 +68,12 @@ describe('reminders over the wire', () => {
     const app = buildApp();
     const vehicleId = await makeVehicle(app);
 
-    const res = await api(app)
-      .post(`/vehicles/${vehicleId}/reminders`)
-      .send({
-        kind: 'mot_due',
-        dueOn: '2025-05-01',
-        note: 'MOT runs out on the 10th - book it in.',
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/vehicles/${vehicleId}/reminders`).send({
+      kind: 'mot_due',
+      dueOn: '2025-05-01',
+      note: 'MOT runs out on the 10th - book it in.',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -96,13 +88,11 @@ describe('reminders over the wire', () => {
   it('404s when the vehicle is not there', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/vehicles/999999/reminders')
-      .send({
-        kind: 'mot_due',
-        dueOn: '2025-05-01',
-        note: 'MOT runs out on the 10th - book it in.',
-      });
+    const res = await api(app).post('/vehicles/999999/reminders').send({
+      kind: 'mot_due',
+      dueOn: '2025-05-01',
+      note: 'MOT runs out on the 10th - book it in.',
+    });
     expect(res.status).toBe(404);
   });
 

@@ -240,3 +240,19 @@ CREATE TABLE IF NOT EXISTS reminders (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- An order placed with the factor to put a part back on the shelf. It
+-- * sits on order until it arrives; marking it received is the only thing that
+-- * moves the part's on-hand count up, so the count and the paperwork cannot
+-- * drift apart.
+CREATE TABLE IF NOT EXISTS supplier_orders (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  part_id INTEGER NOT NULL REFERENCES parts(id) ON DELETE CASCADE,
+  reference TEXT NOT NULL,
+  ordered_on TEXT NOT NULL,
+  quantity INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'ordered',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS supplier_orders_reference_idx ON supplier_orders (reference);
