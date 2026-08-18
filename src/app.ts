@@ -31,6 +31,10 @@ import {
 } from './modules/reminders/reminder.routes';
 import { createSiteRouter } from './modules/sites/site.routes';
 import {
+  createPartSupplierOrderRouter,
+  createSupplierOrderRouter,
+} from './modules/supplier_orders/supplierOrder.routes';
+import {
   createSiteTechnicianRouter,
   createTechnicianRouter,
 } from './modules/technicians/technician.routes';
@@ -75,6 +79,8 @@ export function createApp(db: Database): Express {
   app.use('/payments', requireApiKey, createPaymentRouter(db));
   app.use('/vehicles', requireApiKey, createVehicleReminderRouter(db));
   app.use('/reminders', requireApiKey, createReminderRouter(db));
+  app.use('/parts', requireApiKey, createPartSupplierOrderRouter(db));
+  app.use('/orders', requireApiKey, createSupplierOrderRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
