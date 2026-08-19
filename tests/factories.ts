@@ -281,3 +281,24 @@ export async function makeReminder(
   }
   return res.body.id as number;
 }
+
+export async function makeSupplierOrder(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { partId: parent, ...rest } = fields as { partId?: number };
+  const partId = parent ?? (await makePart(app));
+  const res = await api(app)
+    .post(`/parts/${partId}/orders`)
+    .send({
+      reference: `PO-5500${n}`,
+      orderedOn: '2025-04-10',
+      quantity: 20,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeSupplierOrder: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
