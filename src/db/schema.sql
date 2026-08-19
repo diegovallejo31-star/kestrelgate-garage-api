@@ -256,3 +256,18 @@ CREATE TABLE IF NOT EXISTS supplier_orders (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS supplier_orders_reference_idx ON supplier_orders (reference);
+
+-- A small pool of cars a branch lends out. A car is available, out on
+-- * loan, or off the road for its own service; it can only go out from available,
+-- * so two customers are never handed the same keys.
+CREATE TABLE IF NOT EXISTS courtesy_cars (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  site_id INTEGER NOT NULL REFERENCES sites(id) ON DELETE CASCADE,
+  registration TEXT NOT NULL,
+  model TEXT NOT NULL,
+  seats INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'available',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS courtesy_cars_registration_idx ON courtesy_cars (registration);
