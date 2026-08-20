@@ -302,3 +302,24 @@ export async function makeSupplierOrder(
   }
   return res.body.id as number;
 }
+
+export async function makeCourtesyCar(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { siteId: parent, ...rest } = fields as { siteId?: number };
+  const siteId = parent ?? (await makeSite(app));
+  const res = await api(app)
+    .post(`/sites/${siteId}/courtesy-cars`)
+    .send({
+      registration: `KG20CTY${n}`,
+      model: 'Vauxhall Corsa',
+      seats: 5,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeCourtesyCar: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
