@@ -12,6 +12,10 @@ import {
   createBookingRouter,
   createVehicleBookingRouter,
 } from './modules/bookings/booking.routes';
+import {
+  createCourtesyCarRouter,
+  createSiteCourtesyCarRouter,
+} from './modules/courtesy_cars/courtesyCar.routes';
 import { createCustomerRouter } from './modules/customers/customer.routes';
 import {
   createFitmentRouter,
@@ -81,6 +85,8 @@ export function createApp(db: Database): Express {
   app.use('/reminders', requireApiKey, createReminderRouter(db));
   app.use('/parts', requireApiKey, createPartSupplierOrderRouter(db));
   app.use('/orders', requireApiKey, createSupplierOrderRouter(db));
+  app.use('/sites', requireApiKey, createSiteCourtesyCarRouter(db));
+  app.use('/courtesy-cars', requireApiKey, createCourtesyCarRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
