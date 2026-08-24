@@ -46,6 +46,10 @@ import {
   createCustomerVehicleRouter,
   createVehicleRouter,
 } from './modules/vehicles/vehicle.routes';
+import {
+  createJobWarrantyRouter,
+  createWarrantyRouter,
+} from './modules/warranties/warranty.routes';
 
 export function createApp(db: Database): Express {
   const app = express();
@@ -87,6 +91,8 @@ export function createApp(db: Database): Express {
   app.use('/orders', requireApiKey, createSupplierOrderRouter(db));
   app.use('/sites', requireApiKey, createSiteCourtesyCarRouter(db));
   app.use('/courtesy-cars', requireApiKey, createCourtesyCarRouter(db));
+  app.use('/jobs', requireApiKey, createJobWarrantyRouter(db));
+  app.use('/warranties', requireApiKey, createWarrantyRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
