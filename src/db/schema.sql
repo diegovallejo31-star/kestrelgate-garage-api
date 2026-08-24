@@ -271,3 +271,21 @@ CREATE TABLE IF NOT EXISTS courtesy_cars (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS courtesy_cars_registration_idx ON courtesy_cars (registration);
+
+-- The guarantee the branch gives on a piece of work. It is claimed once
+-- * or it lapses; a claimed warranty is what a comeback was booked against, so it
+-- * does not reopen. What it covers is fixed when it is given - a labour-only
+-- * guarantee does not quietly start covering parts later.
+CREATE TABLE IF NOT EXISTS warranties (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  job_id INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
+  reference TEXT NOT NULL,
+  given_on TEXT NOT NULL,
+  expires_on TEXT NOT NULL,
+  covers_parts INTEGER NOT NULL CHECK (covers_parts IN (0, 1)),
+  covers_labour INTEGER NOT NULL CHECK (covers_labour IN (0, 1)),
+  status TEXT NOT NULL DEFAULT 'active',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS warranties_reference_idx ON warranties (reference);
