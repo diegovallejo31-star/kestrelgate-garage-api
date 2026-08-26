@@ -323,3 +323,26 @@ export async function makeCourtesyCar(
   }
   return res.body.id as number;
 }
+
+export async function makeWarranty(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { jobId: parent, ...rest } = fields as { jobId?: number };
+  const jobId = parent ?? (await makeJob(app));
+  const res = await api(app)
+    .post(`/jobs/${jobId}/warranties`)
+    .send({
+      reference: `WTY-7000${n}`,
+      givenOn: '2025-04-16',
+      expiresOn: '2026-04-16',
+      coversParts: true,
+      coversLabour: true,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeWarranty: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
