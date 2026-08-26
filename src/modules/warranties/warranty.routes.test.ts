@@ -13,15 +13,13 @@ describe('warranties over the wire', () => {
     const app = buildApp();
     const jobId = await makeJob(app);
 
-    const made = await api(app)
-      .post(`/jobs/${jobId}/warranties`)
-      .send({
-        reference: 'WTY-7000',
-        givenOn: '2025-04-16',
-        expiresOn: '2026-04-16',
-        coversParts: true,
-        coversLabour: true,
-      });
+    const made = await api(app).post(`/jobs/${jobId}/warranties`).send({
+      reference: 'WTY-7000',
+      givenOn: '2025-04-16',
+      expiresOn: '2026-04-16',
+      coversParts: true,
+      coversLabour: true,
+    });
     expect(made.status).toBe(201);
     expect(made.body.status).toBe('active');
 
@@ -34,15 +32,13 @@ describe('warranties over the wire', () => {
     const app = buildApp();
     const jobId = await makeJob(app);
 
-    const made = await api(app)
-      .post(`/jobs/${jobId}/warranties`)
-      .send({
-        reference: 'WTY-7000',
-        givenOn: '2025-04-16',
-        expiresOn: '2026-04-16',
-        coversParts: true,
-        coversLabour: true,
-      });
+    const made = await api(app).post(`/jobs/${jobId}/warranties`).send({
+      reference: 'WTY-7000',
+      givenOn: '2025-04-16',
+      expiresOn: '2026-04-16',
+      coversParts: true,
+      coversLabour: true,
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'coversLabour',
       'coversParts',
@@ -61,15 +57,13 @@ describe('warranties over the wire', () => {
     const app = buildApp();
     const jobId = await makeJob(app);
 
-    const made = await api(app)
-      .post(`/jobs/${jobId}/warranties`)
-      .send({
-        reference: 'WTY-7000',
-        givenOn: '2025-04-16',
-        expiresOn: '2026-04-16',
-        coversParts: true,
-        coversLabour: true,
-      });
+    const made = await api(app).post(`/jobs/${jobId}/warranties`).send({
+      reference: 'WTY-7000',
+      givenOn: '2025-04-16',
+      expiresOn: '2026-04-16',
+      coversParts: true,
+      coversLabour: true,
+    });
     const read = await api(app).get(`/warranties/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -82,16 +76,14 @@ describe('warranties over the wire', () => {
     const app = buildApp();
     const jobId = await makeJob(app);
 
-    const res = await api(app)
-      .post(`/jobs/${jobId}/warranties`)
-      .send({
-        reference: 'WTY-7000',
-        givenOn: '2025-04-16',
-        expiresOn: '2026-04-16',
-        coversParts: true,
-        coversLabour: true,
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/jobs/${jobId}/warranties`).send({
+      reference: 'WTY-7000',
+      givenOn: '2025-04-16',
+      expiresOn: '2026-04-16',
+      coversParts: true,
+      coversLabour: true,
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -107,41 +99,35 @@ describe('warranties over the wire', () => {
     const app = buildApp();
     const jobId = await makeJob(app);
 
-    const first = await api(app)
-      .post(`/jobs/${jobId}/warranties`)
-      .send({
-        reference: 'WTY-7000',
-        givenOn: '2025-04-16',
-        expiresOn: '2026-04-16',
-        coversParts: true,
-        coversLabour: true,
-      });
+    const first = await api(app).post(`/jobs/${jobId}/warranties`).send({
+      reference: 'WTY-7000',
+      givenOn: '2025-04-16',
+      expiresOn: '2026-04-16',
+      coversParts: true,
+      coversLabour: true,
+    });
     expect(first.status).toBe(201);
 
-    const again = await api(app)
-      .post(`/jobs/${jobId}/warranties`)
-      .send({
-        reference: 'WTY-7000',
-        givenOn: '2025-04-16',
-        expiresOn: '2026-04-16',
-        coversParts: true,
-        coversLabour: true,
-      });
+    const again = await api(app).post(`/jobs/${jobId}/warranties`).send({
+      reference: 'WTY-7000',
+      givenOn: '2025-04-16',
+      expiresOn: '2026-04-16',
+      coversParts: true,
+      coversLabour: true,
+    });
     expect(again.status).toBe(409);
   });
 
   it('404s when the job is not there', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/jobs/999999/warranties')
-      .send({
-        reference: 'WTY-7000',
-        givenOn: '2025-04-16',
-        expiresOn: '2026-04-16',
-        coversParts: true,
-        coversLabour: true,
-      });
+    const res = await api(app).post('/jobs/999999/warranties').send({
+      reference: 'WTY-7000',
+      givenOn: '2025-04-16',
+      expiresOn: '2026-04-16',
+      coversParts: true,
+      coversLabour: true,
+    });
     expect(res.status).toBe(404);
   });
 
